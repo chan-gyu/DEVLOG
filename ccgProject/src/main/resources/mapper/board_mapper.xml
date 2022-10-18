@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ccgservice.ccgProject.mapper.BoardMapper">
+	
+	<!-- selectCategory -->
+	<select id="selectCategory" resultType="com.ccgservice.ccgProject.board.dto.Category">
+		<choose>
+			<when test='CntBoolean == false'>
+				select * from category
+			</when>
+			<otherwise>
+				select a.categoryname, count(b.categoryname)as cnt from category a left join board b on a.categoryName=b.categoryName group by a.categoryName;
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- insertBoard -->
+	<!-- usedGeneratedKeys = DBMS가 자동 생성키(MySQL경우 Auto Increment)를 지원할때 사용할 수 있다  -->
+	<!-- keyProperty = userGeneratedKeys or selectKey의 하위 엘리먼트에 의해 리턴되는 키를 의미, 게시글의 경우 board_idx 컬럼이 PK이면서 자동생성되므로 이 컬럼을 사용 -->
+	<!-- 즉 DB에서 새로운 게시글이 등록되면 파라미터인 board클래스의 boardIdx에 새로운 게시글 번호가 저장되어 return된다. 서비스 영역에서 따로 로직을 작성하지 않아도 해당 쿼리의 결과로 게시글 번호를 얻을 수 있다.-->
+	<insert id="insertBoard" parameterType="com.ccgservice.ccgProject.board.dto.Board" useGeneratedKeys="true" keyProperty="boardIdx">
+		insert into board(categoryName,boardTitle,boardContent,writer,regdateTime) values(#{categoryName},#{boardTitle},#{boardContent},#{writer},NOW())
+	</insert>
+	
+	<!-- insertBoardFileList -->
+	<insert id="insertBoardFileList" parameterType="com.ccgservice.ccgProject.board.dto.BoardFile">
+		<![CDATA[
+			insert into t_file
+			(
+				boardIdx,
+				originalFileName,
+				storedFilePath,
+				fileSize,
+				writer,
+				insertTime
+			)
+			values
+		]]>
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.boardIdx},
+			#{item.originalFileName},
+			#{item.storedFilePath},
+			#{item.fileSize},
+			#{item.writer},
+			NOW()
+		)
+		</foreach>
+	</insert>
+	
+	<select id="boardList" resultType="com.ccgservice.ccgProject.board.dto.Board">
+		select * from board
+		<if test='categoryName neq null and !"".equals(categoryName)'>
+			where categoryName= #{categoryName}
+		</if>
+	</select>
+	
+	<select id="selectBoardView" resultType="com.ccgservice.ccgProject.board.dto.Board">
+		select * from board where boardIdx=#{boardIdx}
+	</select>
+
+</mapper>
