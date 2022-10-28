@@ -106,7 +106,7 @@ table {
 	text-align:center;
 	display: inline-block;
 	width:60%;
-	border: 1px green solid;
+	/*border: 1px green solid;*/
 	float:left;
 	margin: 100px 0 100px 80px;
 } 
@@ -190,31 +190,127 @@ th, td{
 	height: 500px;
 }
 
-#board_table{
-	width:100%;
-	height:100%;
+#admin_board_btn{
+	margin-top:25px;
 }
-#board_table tr {
-	border-top: 1px white solid;
-	border-bottom: 1px white solid;
+
+#board_update_btn{
+	
 }
-#board_table tr td a{
-	text-decoration: none;
+#board_delete_btn{
+	margin-left: 10px;
 }
-#View_posts{
+
+#view_posts{
 	text-align:center;
 	display: inline-block;
-	width:90%;
-	border: 1px green solid;
+	width:100%;
+	border-bottom: 1px white solid;
 	float:left;
-	margin: 100px 0 100px 80px;
+	margin: 0 0 100px 0;
+	padding-bottom:50px;
+	font-size:25px;
 }
+
+#view_posts> h1, h2, p, pre {
+	margin:25px;
+}
+
+#view_posts> h2, h3{
+	text-align:left;
+}
+
+#view_posts_title{
+	font-size:50px;
+	font-weight:600;
+	margin:10px;
+}
+
+#view_posts_content{
+	text-align:left;
+	margin-top: 100px;
+}
+
+#view_posts_content>img{
+	margin:25px;
+}
+
+#view_posts_content> h1, h2, p, pre {
+	margin:25px;
+}
+#view_posts_content> h2, h3{
+	text-align:left;
+}
+
+
 #admin_SideMenu {
 	border-right:1px solid white;
 }
+
 #admin_SideMenu span{
 	color:white;
 }
+
+#post_board_list{
+	width:100%;
+	height:100%;
+	border-top: 1px white solid;
+	border-bottom: 1px white solid;
+	text-align:left;
+}
+
+#post_board_list a {
+	margin: 10px;
+	text-decoration: none;
+}
+
+#post_board_list h1 {
+	text-align: center;
+	margin: 20px;
+	font-size: 30px;
+}
+
+#post_board_list p {
+	margin-left: 15px;
+}
+
+#board_list_date{
+	
+}
+
+#board_list_writer{
+	text-align:right;
+}
+
+#category_content{
+	text-align:center;
+	display: inline-block;
+	width:50%;
+	border: 1px green solid;
+	margin: 100px 0 0 0;
+}
+
+#categroyList_box{
+	width: 215px;
+	height: 100%;
+	border: 1px yellow solid;
+	display: inline-block;
+	margin-top:20px;
+}
+
+#category_update_box{
+	margin: 20px 0 20px 0 ;
+}
+
+#category_btn{
+	background-color: red;
+	margin-left:10px;	
+}
+
+#category_btn2{
+	background-color: green;	
+}
+
 /* footer */
 footer{
 	background-color: #202124;

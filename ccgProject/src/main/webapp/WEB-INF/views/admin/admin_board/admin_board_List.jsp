@@ -3,14 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/admin/admin_header.jsp">
-	<jsp:param value="관리자페이지" name="title"/>
+	<jsp:param value="관리자 게시글 리스트" name="title"/>
 </jsp:include>
 
 <div id="content-wrapper" style="width:80%;">
 	<div class="col">
 	    <div id="content-warpper" style="width:100%;">
 			<br>
-			<h1>관리자페이지</h1>
+			<h1>관리자 게시글 페이지</h1>
 			<div id="posts">
 			</div>
 			<div id="side_menu">
@@ -41,19 +41,18 @@ $(function(){
 			
 			
 			//posts
-			var posts="<table id='board_table'>";
+			var posts="<div>";
 			$.each(Boardlist, (index,obj)=>{
-				posts+="<tr>";
-				posts+="<td>";
+				posts+="<div id='post_board_list'>"
 				posts+="<a href='${path}/board/Board_View.do?boardIdx="+obj.boardIdx+"'>";
-				posts+="<p>"+Datelist[index]+"</p>";
+				posts+="<p id='board_list_date'>"+Datelist[index]+"</p>";
 				posts+="<h1>"+obj.boardTitle+"</h1>";
-				posts+="<p>"+obj.writer+"</p>";
+				posts+="<p id='board_list_writer'>"+obj.writer+"</p>";
 				posts+="</a>";
-				posts+="</td>";
-				posts+="</tr>";
+				posts+="</div>"
 				
 			});
+			posts+="</div>";
 			
 			$("#posts").html(posts);
 			
@@ -84,19 +83,18 @@ function CategoryAjax(categoryName){
 			
 			
 			//posts
-			var posts="<table id='board_table'>";
+			var posts="<div>";
 			$.each(Boardlist, (index,obj)=>{
-				posts+="<tr>";
-				posts+="<td>"
+				posts+="<div id='post_board_list'>"
 				posts+="<a href='${path}/board/Board_View.do?boardIdx="+obj.boardIdx+"'>";
-				posts+="<p>"+Datelist[index]+"</p>";
+				posts+="<p id='board_list_date'>"+Datelist[index]+"</p>";
 				posts+="<h1>"+obj.boardTitle+"</h1>";
-				posts+="<p>"+obj.writer+"</p>";
+				posts+="<p id='board_list_writer'>"+obj.writer+"</p>";
 				posts+="</a>";
-				posts+="</td>";
-				posts+="</tr>";
+				posts+="</div>"
 				
 			});
+			posts+="</div>";
 			
 			$("#posts").html(posts);
 			

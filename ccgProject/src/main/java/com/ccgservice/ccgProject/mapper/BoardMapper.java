@@ -18,6 +18,9 @@ public interface BoardMapper {
 	void insertBoardFileList(List<BoardFile> list)throws Exception;
 	List<Board> boardList(String categoryName);
 	Board selectBoardView(String boardIdx);
+	int addCategory(String addCate);
+	int deleteCategory(String deleteCate);
+	int board_delete(String boardIdx);
 	
 	
 }

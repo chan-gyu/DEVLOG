@@ -6,10 +6,10 @@
 	<select id="selectCategory" resultType="com.ccgservice.ccgProject.board.dto.Category">
 		<choose>
 			<when test='CntBoolean == false'>
-				select * from category
+				select * from category order by categoryname asc
 			</when>
 			<otherwise>
-				select a.categoryname, count(b.categoryname)as cnt from category a left join board b on a.categoryName=b.categoryName group by a.categoryName;
+				select a.categoryname, count(b.categoryname)as cnt from category a left join board b on a.categoryName=b.categoryName group by a.categoryName order by a.categoryname asc;
 			</otherwise>
 		</choose>
 	</select>
@@ -53,10 +53,23 @@
 		<if test='categoryName neq null and !"".equals(categoryName)'>
 			where categoryName= #{categoryName}
 		</if>
+		order by regdateTime desc
 	</select>
 	
 	<select id="selectBoardView" resultType="com.ccgservice.ccgProject.board.dto.Board">
 		select * from board where boardIdx=#{boardIdx}
 	</select>
+	
+	<insert id="addCategory">
+		insert into category(categoryName) values(#{addCate})
+	</insert>
+	
+	<delete id="deleteCategory">
+		delete from category where categoryName = #{deleteCate}
+	</delete>
+	
+	<delete id="board_delete">
+		delete from board where boardIdx = #{boardIdx}
+	</delete>
 
 </mapper>

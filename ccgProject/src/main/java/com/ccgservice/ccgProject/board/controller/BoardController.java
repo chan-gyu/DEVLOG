@@ -168,15 +168,84 @@ public class BoardController {
 		return map;
 	}
 	
+	@RequestMapping("/index_board_List.do")
+	@ResponseBody
+	public HashMap<String,Object> boardList2(@RequestParam Map<String, Object> param) {
+		String categoryName = (String) param.get("categoryName");
+		boolean cntBoolean = true;
+		//카테고리리스트
+		List<Category> Categorylist = service.selectCategory(cntBoolean);
+		//게시판리스트
+		List<Board> Boardlist = service.boardList(categoryName);
+		//게시판리스트 시간수정
+		List<String> Datelist = new ArrayList<>();
+		for (int i = 0; i < Boardlist.size(); i++) {
+			LocalDateTime date = Boardlist.get(i).getRegdateTime();
+			Datelist.add(i, date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+		}
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("Categorylist", Categorylist);
+		map.put("Boardlist", Boardlist);
+		map.put("Datelist", Datelist);
+		
+		return map;
+	}
+	
 	@RequestMapping("/board/Board_View.do")
 	public ModelAndView Board_View(@RequestParam String boardIdx, ModelAndView mv) {
 		Board board = service.selectBoardView(boardIdx);
-		logger.info("board : " + board.toString());
+		LocalDateTime date = board.getRegdateTime();
+		String formatDate = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
 		
-		mv.addObject(board);
+		mv.addObject("board", board);
+		mv.addObject("formatDate", formatDate);
 		mv.setViewName("/admin/admin_board/admin_Board_View");
 		
 		return mv;
+	}
+	
+	@RequestMapping("/board/index_Board_View.do")
+	public ModelAndView index_Board_View(@RequestParam String boardIdx, ModelAndView mv) {
+		Board board = service.selectBoardView(boardIdx);
+		LocalDateTime date = board.getRegdateTime();
+		String formatDate = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+		
+		mv.addObject("board", board);
+		mv.addObject("formatDate", formatDate);
+		mv.setViewName("/board/Board_View");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/admin/board_update_page.do")
+	public ModelAndView board_update_page(@RequestParam String boardIdx, ModelAndView mv) {
+		Board board = service.selectBoardView(boardIdx);
+		mv.addObject("updateIdx", boardIdx);
+		mv.addObject("board", board);
+		mv.setViewName("/admin/admin_board/admin_board_update");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/admin/board_delete.do")
+	public String board_delete(@RequestParam String boardIdx) {
+
+		int result = service.board_delete(boardIdx);
+		if(result ==1) 	return moveBoardList();
+		else return "/";
+		
+	}
+	
+	@RequestMapping("/board/board_update.do")
+	public String board_update(@RequestParam String updateIdx, @RequestParam Map<String,String> map) {
+		
+		System.out.println(updateIdx);
+		System.out.println(map.get("writer_name"));
+		System.out.println(map.get("category"));
+		System.out.println(map.get("board_title"));
+		logger.info(map.get("txtContent"));
+		
+		return moveBoardList();
 	}
 	
 }

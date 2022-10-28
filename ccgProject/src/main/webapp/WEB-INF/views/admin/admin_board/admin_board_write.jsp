@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/admin/admin_header.jsp">
-	<jsp:param value="관리자페이지" name="title"/>
+	<jsp:param value="관리자 게시글 작성페이지" name="title"/>
 </jsp:include>
 
 <div id="content-wrapper" style="width:80%;">

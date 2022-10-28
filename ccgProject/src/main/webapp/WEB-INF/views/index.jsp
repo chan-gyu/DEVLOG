@@ -7,53 +7,98 @@
 
 	<div id="Main-Wrapper">
 		<div id="content-wrapper">
-			<br>
-			<h1>ccgProject-index.jsp</h1>
 			<div id="posts">
-				<p style="color:pink;">태그</p>
-				<p><a href="#">""</a></p>
-				<p><a href="#">JavaScript()</a></p>
-				<p><a href="#">spring</a></p>
-				<p><a href="#">DB</a></p>
-				<p style="color:pink;">일상</p>
-				<p><a href="#">알고리즘</a></p>
-				<p><a href="#">코테</a></p>
-				<p style="color:pink;">태그</p>
-				<p><a href="#">Java</a></p>
-				<p><a href="#">JavaScript</a></p>
-				<p><a href="#">spring</a></p>
-				<p><a href="#">DB</a></p>
-				<p style="color:pink;">일상</p>
-				<p><a href="#">알고리즘</a></p>
-				<p><a href="#">코테</a></p>
-				<p style="color:pink;">태그</p>
-				<p><a href="#">Java</a></p>
-				<p><a href="#">JavaScript</a></p>
-				<p><a href="#">spring</a></p>
-				<p><a href="#">DB</a></p>
-				<p style="color:pink;">일상</p>
-				<p><a href="#">알고리즘</a></p>
-				<p><a href="#">코테</a></p>
-				<p style="color:pink;">태그</p>
-				<p><a href="#">Java</a></p>
-				<p><a href="#">JavaScript</a></p>
-				<p><a href="#">spring</a></p>
-				<p><a href="#">DB</a></p>
-				<p style="color:pink;">일상</p>
-				<p><a href="#">알고리즘</a></p>
-				<p><a href="#">코테</a></p>
 			</div>
 			<div id="side_menu">
-				<p style="color:pink;">태그</p>
-				<p><a href="#">Java</a></p>
-				<p><a href="#">JavaScript</a></p>
-				<p><a href="#">Spring</a></p>
-				<p><a href="#">DB</a></p>
-				<p style="color:pink;">일상</p>
-				<p><a href="#">알고리즘</a></p>
-				<p><a href="#">코테</a></p>
 			</div>
 		</div>
 	</div>
+
+<script>
+$(function(){
+	let categoryName=null;
+	$.ajax({
+		url:"${path}/index_board_List.do",
+		type:"POST",
+		data:{categoryName:categoryName},
+		success: function(data){
+			var Categorylist = data.Categorylist;
+			var Boardlist = data.Boardlist;
+			var Datelist = data.Datelist;
+			
+			//side_menu
+			var side_menu="<p style='color:pink;'>게시판 목록</p>";
+			side_menu+="<p><a href='#' onClick='top.location=\"javascript:location.reload()\"'>All</a></p>"
+			$.each(Categorylist,(index,obj)=>{
+				side_menu+="<p><a href=# onClick='CategoryAjax(\""+obj.categoryName+"\")'>"+obj.categoryName+"("+obj.cnt+")</a></p>";
+			});
+			$("#side_menu").html(side_menu);
+			
+			
+			//posts
+			var posts="<div>";
+			$.each(Boardlist, (index,obj)=>{
+				posts+="<div id='post_board_list'>"
+				posts+="<a href='${path}/board/index_Board_View.do?boardIdx="+obj.boardIdx+"'>";
+				posts+="<p id='board_list_date'>"+Datelist[index]+"</p>";
+				posts+="<h1>"+obj.boardTitle+"</h1>";
+				posts+="<p id='board_list_writer'>"+obj.writer+"</p>";
+				posts+="</a>";
+				posts+="</div>"
+				
+			});
+			posts+="</div>";
+			
+			$("#posts").html(posts);
+			
+		},	
+		error:function(){
+			console.log("error");
+		}
+	});
+});
+
+function CategoryAjax(categoryName){
+	$.ajax({
+		url:"${path}/index_board_List.do",
+		type:"POST",
+		data:{categoryName:categoryName},
+		success: function(data){
+			var Categorylist = data.Categorylist;
+			var Boardlist = data.Boardlist;
+			var Datelist = data.Datelist;
+			
+			//side_menu
+			var side_menu="<p style='color:pink;'>게시판 목록</p>";
+			side_menu+="<p><a href='#' onClick='top.location=\"javascript:location.reload()\"'>All</a></p>"
+			$.each(Categorylist,(index,obj)=>{
+				side_menu+="<p><a href=# onClick='CategoryAjax(\""+obj.categoryName+"\")'>"+obj.categoryName+"("+obj.cnt+")</a></p>";
+			});
+			$("#side_menu").html(side_menu);
+			
+			
+			//posts
+			var posts="<div>";
+			$.each(Boardlist, (index,obj)=>{
+				posts+="<div id='post_board_list'>"
+				posts+="<a href='${path}/board/index_Board_View.do?boardIdx="+obj.boardIdx+"'>";
+				posts+="<p id='board_list_date'>"+Datelist[index]+"</p>";
+				posts+="<h1>"+obj.boardTitle+"</h1>";
+				posts+="<p id='board_list_writer'>"+obj.writer+"</p>";
+				posts+="</a>";
+				posts+="</div>"
+				
+			});
+			posts+="</div>";
+			
+			$("#posts").html(posts);
+			
+		},	
+		error:function(){
+			console.log("error");
+		}
+	});
+}
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

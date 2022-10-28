@@ -6,14 +6,17 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.ccgservice.ccgProject.intercepter.LoggerInterceptor;
+import com.ccgservice.ccgProject.intercepter.LoginInterceptor;
 
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoggerInterceptor());
+		//registry.addInterceptor(new LoggerInterceptor());
+		registry.addInterceptor(new LoginInterceptor())
+				.addPathPatterns("/admin/*.do");
+		
 	}
 	
 	@Bean

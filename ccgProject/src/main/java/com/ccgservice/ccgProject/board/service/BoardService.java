@@ -69,5 +69,20 @@ public class BoardService {
 		return b;
 				
 	}
+	
+	public int addCategory(String addCate) {
+		int result = mapper.addCategory(addCate);
+		return result;
+	}
+	
+	public int deleteCategory(String deleteCate) {
+		int result = mapper.deleteCategory(deleteCate);
+		return result;
+	}
+	
+	public int board_delete(String boardIdx) {
+		int result = mapper.board_delete(boardIdx);
+		return result;
+	}
 
 }
