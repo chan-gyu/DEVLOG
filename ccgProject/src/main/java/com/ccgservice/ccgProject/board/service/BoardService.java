@@ -84,5 +84,10 @@ public class BoardService {
 		int result = mapper.board_delete(boardIdx);
 		return result;
 	}
+	
+	public int update_Board(Board board) {
+		int result = mapper.update_Board(board);
+		return result;
+	}
 
 }

@@ -239,11 +239,15 @@ public class BoardController {
 	@RequestMapping("/board/board_update.do")
 	public String board_update(@RequestParam String updateIdx, @RequestParam Map<String,String> map) {
 		
-		System.out.println(updateIdx);
-		System.out.println(map.get("writer_name"));
-		System.out.println(map.get("category"));
-		System.out.println(map.get("board_title"));
-		logger.info(map.get("txtContent"));
+		
+		Board board = new Board();
+		board.setBoardIdx(Integer.parseInt(updateIdx));
+		board.setCategoryName(map.get("category"));
+		board.setBoardTitle(map.get("board_title"));
+		board.setBoardContent(map.get("txtContent"));
+		
+		service.update_Board(board);
+		
 		
 		return moveBoardList();
 	}

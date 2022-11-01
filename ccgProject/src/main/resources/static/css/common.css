@@ -7,12 +7,12 @@
 /******ResetCSS*******/
 
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
+blockquote, pre,
+abbr, acronym, address, big, cite,
+del, dfn, em,  ins, kbd, q, s, samp,
+small, strike, sub, sup, tt, var,
 b, u, i, center,
-dl, dt, dd, ol, ul, li,
+dl, dt, dd, ol,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
@@ -34,9 +34,6 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	background-color: #202124;
-}
-ol, ul {
-	list-style: none;
 }
 blockquote, q {
 	quotes: none;
@@ -109,14 +106,36 @@ table {
 	/*border: 1px green solid;*/
 	float:left;
 	margin: 100px 0 100px 80px;
-} 
-#side_menu{
-	text-align:left;
-	display: inline-block;
+}
+#profil{
 	width:25%;
-	border: 1px pink solid;
+	height: 250px;
+	display: inline-block;
 	float:left;
+	text-align:center;
+	margin: 100px 0 0 50px;
+	border: 1px solid transparent;
+    border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    border-image-slice: 1;
+}
+#profile>p{
+	margin:0px;
+}
+#side_menu{
+	width:25%;
+	display: inline-block;
+	float:left;
+	text-align:left;
 	margin: 100px 0 100px 50px;
+	color:white;
+	border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    border-image-slice: 1;
+}
+#side_menu>p a{
+	text-decoration : none;
+	color:white;
 }
 #side_menu>p{
 	margin: 10px 0 10px 30px;
@@ -202,21 +221,36 @@ th, td{
 }
 
 #view_posts{
-	text-align:center;
-	display: inline-block;
 	width:100%;
-	border-bottom: 1px white solid;
+	display: inline-block;
+	text-align:center;
 	float:left;
-	margin: 0 0 100px 0;
-	padding-bottom:50px;
+	margin: 25px 0 100px 0;
+	padding:50px 0 50px 0;
 	font-size:25px;
+	border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    border-image-slice: 1;
 }
 
-#view_posts> h1, h2, p, pre {
+#view_posts>h1{
+	margin:25px;
+}
+#view_posts>h2{
+	margin:25px;
+}
+#view_posts>p{
+	margin:25px;
+}
+#view_posts>pre{
 	margin:25px;
 }
 
-#view_posts> h2, h3{
+#view_posts>h2{
+	text-align:left;
+}
+#view_posts>h3{
 	text-align:left;
 }
 
@@ -230,18 +264,21 @@ th, td{
 	text-align:left;
 	margin-top: 100px;
 }
+#view_posts_content>p {
+	line-height:1.5
+}
+
 
 #view_posts_content>img{
 	margin:25px;
 }
 
-#view_posts_content> h1, h2, p, pre {
-	margin:25px;
-}
-#view_posts_content> h2, h3{
+#view_posts_content>h2{
 	text-align:left;
 }
-
+#view_posts_content>h3{
+	text-align:left;
+}
 
 #admin_SideMenu {
 	border-right:1px solid white;
@@ -254,9 +291,11 @@ th, td{
 #post_board_list{
 	width:100%;
 	height:100%;
-	border-top: 1px white solid;
-	border-bottom: 1px white solid;
 	text-align:left;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+    border-image-slice: 1;
 }
 
 #post_board_list a {

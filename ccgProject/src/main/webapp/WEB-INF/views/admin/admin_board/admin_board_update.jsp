@@ -6,7 +6,7 @@
 </jsp:include>
 
 <div id="content-wrapper" style="width:80%;">
-	<form id="board_form" action="${path }/board/board_update.do?updateIdx='${updateIdx }'" method="post" enctype="multipart/form-data">
+	<form id="board_form" action="${path }/board/board_update.do?updateIdx=${updateIdx }" method="post" enctype="multipart/form-data">
 		<table id="admin_board_table">
 			<tr>
 				<td style="height:20px; text-align:center; background-color:#ccc; color:white;">글쓰기</td>

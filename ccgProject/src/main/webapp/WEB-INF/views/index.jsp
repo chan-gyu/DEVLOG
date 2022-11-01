@@ -9,7 +9,15 @@
 		<div id="content-wrapper">
 			<div id="posts">
 			</div>
-			<div id="side_menu">
+			<div id="profil">
+				<img src="/img/icon/icons-admin-wolf.png" style="width:70px; hegith:70px; border:1px solid white; border-radius:50%; margin-top:25px;"><br/><br/>
+				<p>Web Developer 최찬규</p><br/>
+				<img src="/img/icon/icons-admin-wolf.png" style="width:50px; hegith:50px;">
+				<img src="/img/icon/icons-admin-wolf.png" style="width:50px; hegith:50px;">
+				<img src="/img/icon/icons-admin-wolf.png" style="width:50px; hegith:50px;">
+				
+			</div>
+			<div id="side_menu" style="margin-top:50px">
 			</div>
 		</div>
 	</div>

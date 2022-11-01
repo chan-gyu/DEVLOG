@@ -21,6 +21,7 @@ public interface BoardMapper {
 	int addCategory(String addCate);
 	int deleteCategory(String deleteCate);
 	int board_delete(String boardIdx);
+	int update_Board(Board board);
 	
 	
 }

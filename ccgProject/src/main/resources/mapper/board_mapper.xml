@@ -71,5 +71,11 @@
 	<delete id="board_delete">
 		delete from board where boardIdx = #{boardIdx}
 	</delete>
-
+	
+	<update id="update_Board" parameterType="com.ccgservice.ccgProject.board.dto.Board">
+		update board
+		set categoryName = #{categoryName}, boardTitle = #{boardTitle}, boardContent = #{boardContent}, updateTime = NOW()
+		where boardIdx = #{boardIdx}
+	</update>
+	
 </mapper>
