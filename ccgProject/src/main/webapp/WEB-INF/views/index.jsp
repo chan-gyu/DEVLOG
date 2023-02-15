@@ -10,11 +10,11 @@
 			<div id="posts">
 			</div>
 			<div id="profil">
-				<img src="/img/icon/icons-admin-wolf.png" style="width:70px; hegith:70px; border:1px solid white; border-radius:50%; margin-top:25px;"><br/><br/>
+				<img src="/img/icon/icons-admin-wolf.png" style="width:70px; height:70px; border:1px solid white; border-radius:50%; margin-top:25px;"><br/><br/>
 				<p>Web Developer 최찬규</p><br/>
-				<a href="https://github.com/chan-gyu" target="_blank"><img src="/img/icon/icons8-github__50.png" style="width:50px; hegith:50px;"></a>
-				<a href="https://ccg-service.com/Parking/" target="_blank"><img src="/img/icon/icons8-car-50.png" style="width:50px; hegith:50px;"></a>
-				<img src="/img/icon/icons-admin-wolf.png" style="width:50px; hegith:50px;">
+				<a href="https://github.com/chan-gyu" target="_blank"><img src="/img/icon/icons8-github__50.png" style="width:50px; height:50px;"></a>
+				<a href="https://ccg-service.com/Parking/" target="_blank"><img src="/img/icon/icons8-car-50.png" style="width:50px; height:50px;"></a>
+				<img src="/img/icon/icons-admin-wolf.png" style="width:50px; height:50px;">
 				
 			</div>
 			<div id="side_menu" style="margin-top:50px">
