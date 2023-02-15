@@ -12,8 +12,8 @@
 			<div id="profil">
 				<img src="/img/icon/icons-admin-wolf.png" style="width:70px; hegith:70px; border:1px solid white; border-radius:50%; margin-top:25px;"><br/><br/>
 				<p>Web Developer 최찬규</p><br/>
-				<img src="/img/icon/icons-admin-wolf.png" style="width:50px; hegith:50px;">
-				<img src="/img/icon/icons-admin-wolf.png" style="width:50px; hegith:50px;">
+				<a href="https://github.com/chan-gyu" target="_blank"><img src="/img/icon/icons8-github__50.png" style="width:50px; hegith:50px;"></a>
+				<a href="https://ccg-service.com/Parking/" target="_blank"><img src="/img/icon/icons8-car-50.png" style="width:50px; hegith:50px;"></a>
 				<img src="/img/icon/icons-admin-wolf.png" style="width:50px; hegith:50px;">
 				
 			</div>
@@ -25,6 +25,7 @@
 <script>
 $(function(){
 	let categoryName=null;
+	let cPage=null;
 	$.ajax({
 		url:"${path}/index_board_List.do",
 		type:"POST",
@@ -33,6 +34,9 @@ $(function(){
 			var Categorylist = data.Categorylist;
 			var Boardlist = data.Boardlist;
 			var Datelist = data.Datelist;
+			var totalData = data.totalData;
+			var pageBar = data.pageBar;
+			
 			
 			//side_menu
 			var side_menu="<p style='color:pink;'>게시판 목록</p>";
@@ -55,6 +59,9 @@ $(function(){
 				posts+="</div>"
 				
 			});
+			posts+="<div id='pagebar-container'>";
+			posts+=pageBar;
+			posts+="</div>";
 			posts+="</div>";
 			
 			$("#posts").html(posts);
@@ -75,6 +82,8 @@ function CategoryAjax(categoryName){
 			var Categorylist = data.Categorylist;
 			var Boardlist = data.Boardlist;
 			var Datelist = data.Datelist;
+			var totalData = data.totalData;
+			var pageBar = data.pageBar;
 			
 			//side_menu
 			var side_menu="<p style='color:pink;'>게시판 목록</p>";
@@ -97,6 +106,56 @@ function CategoryAjax(categoryName){
 				posts+="</div>"
 				
 			});
+			posts+="<div id='pagebar-container'>";
+			posts+=pageBar;
+			posts+="</div>";
+			posts+="</div>";
+			
+			$("#posts").html(posts);
+			
+		},	
+		error:function(){
+			console.log("error");
+		}
+	});
+}
+
+function pagebarMove(cPage){
+	$.ajax({
+		url:"${path}/index_board_List.do",
+		type:"POST",
+		data:{cPage:cPage},
+		success: function(data){
+			var Categorylist = data.Categorylist;
+			var Boardlist = data.Boardlist;
+			var Datelist = data.Datelist;
+			var totalData = data.totalData;
+			var pageBar = data.pageBar;
+			
+			//side_menu
+			var side_menu="<p style='color:pink;'>게시판 목록</p>";
+			side_menu+="<p><a href='#' onClick='top.location=\"javascript:location.reload()\"'>All</a></p>"
+			$.each(Categorylist,(index,obj)=>{
+				side_menu+="<p><a href=# onClick='CategoryAjax(\""+obj.categoryName+"\")'>"+obj.categoryName+"("+obj.cnt+")</a></p>";
+			});
+			$("#side_menu").html(side_menu);
+			
+			
+			//posts
+			var posts="<div>";
+			$.each(Boardlist, (index,obj)=>{
+				posts+="<div id='post_board_list'>"
+				posts+="<a href='${path}/board/index_Board_View.do?boardIdx="+obj.boardIdx+"'>";
+				posts+="<p id='board_list_date'>"+Datelist[index]+"</p>";
+				posts+="<h1>"+obj.boardTitle+"</h1>";
+				posts+="<p id='board_list_writer'>"+obj.writer+"</p>";
+				posts+="</a>";
+				posts+="</div>"
+				
+			});
+			posts+="<div id='pagebar-container'>";
+			posts+=pageBar;
+			posts+="</div>";
 			posts+="</div>";
 			
 			$("#posts").html(posts);

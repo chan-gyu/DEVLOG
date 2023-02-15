@@ -1,13 +1,11 @@
 package com.ccgservice.ccgProject.board.service;
 
-import java.util.Iterator;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ccgservice.ccgProject.board.dto.Board;
@@ -57,10 +55,25 @@ public class BoardService {
 		 */
 	}
 	
-	public List<Board> boardList(String categoryName){
-		List<Board> list = mapper.boardList(categoryName);
+	public Board selectBoardDetail(int boardIdx) throws Exception {
+		Board board = mapper.selectBoardView(Integer.toString(boardIdx));
+		List<BoardFile> fileList = mapper.selectBoardFileList(boardIdx);
+		board.setFileList(fileList);
+		
+		//mapper.updateHitCount(boardIdx);
+		
+		return board;
+	}
+	
+	
+	public List<Board> boardList(String categoryName, int cPage, int numPerPage){
+		List<Board> list = mapper.boardList(categoryName, cPage, numPerPage);
 		
 		return list;
+	}
+	
+	public int boardListCount(String categoryName) {
+		return mapper.boardListCount(categoryName);
 	}
 	
 	public Board selectBoardView(String boardIdx) {
@@ -88,6 +101,10 @@ public class BoardService {
 	public int update_Board(Board board) {
 		int result = mapper.update_Board(board);
 		return result;
+	}
+	
+	public BoardFile selectBoardFileInfo(int tidx, int boardIdx)throws Exception{
+		return mapper.selectBoardFileInfo(tidx, boardIdx);
 	}
 
 }

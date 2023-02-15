@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,10 +17,12 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,11 +31,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ccgservice.ccgProject.board.dto.Board;
+import com.ccgservice.ccgProject.board.dto.BoardFile;
 import com.ccgservice.ccgProject.board.dto.Category;
 import com.ccgservice.ccgProject.board.service.BoardService;
+import com.ccgservice.ccgProject.common.PageFactory;
 
 @Controller
 public class BoardController {
+	
+	ArrayList<Category> list = new ArrayList<>();
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -147,13 +154,17 @@ public class BoardController {
 	
 	@RequestMapping("/admin/admin_board_List.do")
 	@ResponseBody
-	public HashMap<String,Object> boardList(@RequestParam Map<String, Object> param) {
+	public HashMap<String,Object> boardList(@RequestParam Map<String, Object> param,
+											@RequestParam(value="cPage", defaultValue="1") int cPage,
+											@RequestParam(value="numPerPage", defaultValue="5") int numPerPage) {
 		String categoryName = (String) param.get("categoryName");
 		boolean cntBoolean = true;
+		//게시판리스트
+		List<Board> Boardlist = service.boardList(categoryName, (cPage-1)*numPerPage , numPerPage);
+		int totalData = service.boardListCount(categoryName);
+		
 		//카테고리리스트
 		List<Category> Categorylist = service.selectCategory(cntBoolean);
-		//게시판리스트
-		List<Board> Boardlist = service.boardList(categoryName);
 		//게시판리스트 시간수정
 		List<String> Datelist = new ArrayList<>();
 		for (int i = 0; i < Boardlist.size(); i++) {
@@ -161,8 +172,10 @@ public class BoardController {
 			Datelist.add(i, date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("Categorylist", Categorylist);
 		map.put("Boardlist", Boardlist);
+		map.put("totalData", totalData);
+		map.put("pageBar", PageFactory.getPageBar(cPage, numPerPage, totalData, 5, "${path}/admin/admin_board_List.do"));
+		map.put("Categorylist", Categorylist);
 		map.put("Datelist", Datelist);
 		
 		return map;
@@ -170,13 +183,19 @@ public class BoardController {
 	
 	@RequestMapping("/index_board_List.do")
 	@ResponseBody
-	public HashMap<String,Object> boardList2(@RequestParam Map<String, Object> param) {
+	public HashMap<String,Object> boardList2(@RequestParam Map<String, Object> param,
+											@RequestParam(value="cPage", defaultValue="1") int cPage,
+											@RequestParam(value="numPerPage", defaultValue="5") int numPerPage) {
 		String categoryName = (String) param.get("categoryName");
 		boolean cntBoolean = true;
+		
+		//게시판리스트
+		List<Board> Boardlist = service.boardList(categoryName, (cPage-1)*numPerPage , numPerPage);
+		int totalData = service.boardListCount(categoryName);
+		
+		
 		//카테고리리스트
 		List<Category> Categorylist = service.selectCategory(cntBoolean);
-		//게시판리스트
-		List<Board> Boardlist = service.boardList(categoryName);
 		//게시판리스트 시간수정
 		List<String> Datelist = new ArrayList<>();
 		for (int i = 0; i < Boardlist.size(); i++) {
@@ -184,8 +203,10 @@ public class BoardController {
 			Datelist.add(i, date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("Categorylist", Categorylist);
 		map.put("Boardlist", Boardlist);
+		map.put("totalData", totalData);
+		map.put("pageBar", PageFactory.getPageBar(cPage, numPerPage, totalData, 5, "${path}/index_board_List.do"));
+		map.put("Categorylist", Categorylist);
 		map.put("Datelist", Datelist);
 		
 		return map;
@@ -205,10 +226,18 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/board/index_Board_View.do")
-	public ModelAndView index_Board_View(@RequestParam String boardIdx, ModelAndView mv) {
-		Board board = service.selectBoardView(boardIdx);
+	public ModelAndView index_Board_View(@RequestParam String boardIdx, ModelAndView mv) throws Exception{
+		//Board board = service.selectBoardView(boardIdx);
+		Board board = service.selectBoardDetail(Integer.parseInt(boardIdx));
 		LocalDateTime date = board.getRegdateTime();
 		String formatDate = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+		LocalDateTime update = board.getUpdateTime();
+		
+		if(update !=null) {
+			String formatUpdateDate = update.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+			mv.addObject("formatUpdateDate", formatUpdateDate);
+		}
+		
 		
 		mv.addObject("board", board);
 		mv.addObject("formatDate", formatDate);
@@ -252,4 +281,19 @@ public class BoardController {
 		return moveBoardList();
 	}
 	
+	@RequestMapping("board/downloadBoardFile.do")
+	public void downloadBoardFile(@RequestParam int tidx, @RequestParam int boardIdx, HttpServletResponse  response) throws Exception{
+		BoardFile boardFile = service.selectBoardFileInfo(tidx, boardIdx);
+		if(ObjectUtils.isEmpty(boardFile)==false) {
+			String fileName = boardFile.getOriginalFileName();
+			byte[] files = FileUtils.readFileToByteArray(new File(boardFile.getStoredFilePath()));
+			
+			response.setContentType("application/octet-stream");
+			response.setContentLength(files.length);
+			response.setHeader("Content-Disposition", "attachment; fileName=\""+URLEncoder.encode(fileName, "UTF-8")+"\";");
+			response.getOutputStream().write(files);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		}
+	}
 }

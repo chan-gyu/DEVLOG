@@ -1,6 +1,7 @@
 package com.ccgservice.ccgProject.board.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +21,7 @@ public class Board {
 	private String writer;
 	private LocalDateTime regdateTime;
 	private LocalDateTime updateTime;
+	
+	private List<BoardFile> fileList;
 
 }

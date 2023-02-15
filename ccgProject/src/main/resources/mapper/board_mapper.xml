@@ -53,7 +53,13 @@
 		<if test='categoryName neq null and !"".equals(categoryName)'>
 			where categoryName= #{categoryName}
 		</if>
-		order by regdateTime desc
+		order by regdateTime desc limit #{cPage}, #{numPerPage}
+	</select>
+	<select id="boardListCount" resultType="int">
+		select count(*) from board
+		<if test='categoryName neq null and !"".equals(categoryName)'>
+			where categoryName= #{categoryName}
+		</if>
 	</select>
 	
 	<select id="selectBoardView" resultType="com.ccgservice.ccgProject.board.dto.Board">
@@ -77,5 +83,35 @@
 		set categoryName = #{categoryName}, boardTitle = #{boardTitle}, boardContent = #{boardContent}, updateTime = NOW()
 		where boardIdx = #{boardIdx}
 	</update>
+	
+	<select id="selectBoardFileList" parameterType="int" resultType="com.ccgservice.ccgProject.board.dto.BoardFile">
+		<![CDATA[
+			select
+				tidx,
+				boardIdx,
+				originalFileName,
+				FORMAT(ROUND(fileSize / 1024), 0 ) AS fileSize
+			from
+				t_file
+			where
+				boardIdx = #{boardIdx}
+				and delete_yn = 'N'
+		]]>
+	</select>
+	
+	<select id="selectBoardFileInfo" parameterType="map" resultType="com.ccgservice.ccgProject.board.dto.BoardFile">
+		<![CDATA[
+			SELECT
+				originalFileName,
+				storedFilePath,
+				fileSize
+			FROM
+				t_file
+			WHERE
+				tidx=#{tidx}
+				AND boardIdx = #{boardIdx}
+				AND delete_yn = 'N'
+		]]>
+	</select>
 	
 </mapper>

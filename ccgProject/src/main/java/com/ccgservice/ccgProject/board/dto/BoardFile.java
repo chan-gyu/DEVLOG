@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BoardFile {
 	
-	private int tIdx;
+	private int tidx;
 	private int boardIdx;
 	private String originalFileName;
 	private String storedFilePath;
